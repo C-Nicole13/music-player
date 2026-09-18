@@ -12,7 +12,7 @@ const title = document.getElementById('title');
 const cover = document.getElementById('cover');
 
 const songs = ['ambient', 'melancholy', 'unbreakable'];
-let songIndex = 0; // Starts on 'ambient' to match index.html initial src
+let songIndex = 0; // Starts on 'ambient' 
 
 function loadSong(song) {
   title.innerText = song;
