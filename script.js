@@ -11,8 +11,8 @@ const progressContainer = document.getElementById('progress-container');
 const title = document.getElementById('title');
 const cover = document.getElementById('cover');
 
-const songs = ['hey', 'summer', 'ukulele'];
-let songIndex = 2;
+const songs = ['ambient', 'melancholy', 'unbreakable'];
+let songIndex = 0; // Starts on 'ambient' to match index.html initial src
 
 function loadSong(song) {
   title.innerText = song;
@@ -26,13 +26,27 @@ loadSong(songs[songIndex]);
 
 function playSong() {
   musicContainer.classList.add('play');
-  playBtn.querySelector('i.fas').classList.replace('fa-play', 'fa-pause');
-  audio.play();
+  
+  // Safely update play icon without breaking if class structures differ
+  const icon = playBtn.querySelector('i');
+  if (icon) {
+    icon.classList.remove('fa-play');
+    icon.classList.add('fa-pause');
+  }
+
+  // Catch browser autoplay or source restriction promises
+  audio.play().catch(err => console.log('Playback error:', err));
 }
 
 function pauseSong() {
   musicContainer.classList.remove('play');
-  playBtn.querySelector('i.fas').classList.replace('fa-pause', 'fa-play');
+  
+  const icon = playBtn.querySelector('i');
+  if (icon) {
+    icon.classList.remove('fa-pause');
+    icon.classList.add('fa-play');
+  }
+
   audio.pause();
 }
 
@@ -61,9 +75,11 @@ nextBtn.addEventListener('click', nextSong);
 // Progress bar update
 
 function updateProgress(e) {
-  const { duration, currentTime } = e.srcElement;
-  const percent = (currentTime / duration) * 100;
-  progress.style.width = `${percent}%`;
+  const { duration, currentTime } = e.target || e.srcElement;
+  if (duration) {
+    const percent = (currentTime / duration) * 100;
+    progress.style.width = `${percent}%`;
+  }
 }
 
 audio.addEventListener('timeupdate', updateProgress);
@@ -73,7 +89,9 @@ audio.addEventListener('timeupdate', updateProgress);
 function setProgress(e) {
   const width = this.clientWidth;
   const clickX = e.offsetX;
-  audio.currentTime = (clickX / width) * audio.duration;
+  if (audio.duration) {
+    audio.currentTime = (clickX / width) * audio.duration;
+  }
 }
 
 progressContainer.addEventListener('click', setProgress);

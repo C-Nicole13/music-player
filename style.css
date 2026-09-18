@@ -35,8 +35,7 @@ body {
   width: 110px;
 }
 
-
-/* Updated to a non-spinning square cover */
+/* square album cover */
 .img-container img {
   border-radius: 8px;
   object-fit: cover;
@@ -45,15 +44,6 @@ body {
   position: absolute;
   bottom: 0;
   left: 0;
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 .navigation {
@@ -82,7 +72,7 @@ body {
   outline: 0;
 }
 
-/* Info Banner and Progress Bar Styles */
+/* Progress Bar */
 
 .music-info {
   background-color: rgba(255, 255, 255, 0.5);
